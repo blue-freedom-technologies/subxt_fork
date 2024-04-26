@@ -259,7 +259,7 @@ async fn chainspec_v1_properties() {
 
 #[cfg(fullclient)]
 #[subxt_test]
-async fn transaction_unstable_submit_and_watch() {
+async fn transactionwatch_v1_submit_and_watch() {
     let ctx = test_context().await;
     let rpc = ctx.unstable_rpc_methods().await;
 
@@ -274,7 +274,7 @@ async fn transaction_unstable_submit_and_watch() {
 
     // Test submitting it:
     let mut sub = rpc
-        .transaction_unstable_submit_and_watch(&tx_bytes)
+        .transactionwatch_v1_submit_and_watch(&tx_bytes)
         .await
         .unwrap();
 
@@ -318,7 +318,7 @@ async fn next_operation_event<
 }
 
 #[tokio::test]
-async fn transaction_unstable_broadcast() {
+async fn transaction_v1_broadcast() {
     let bob = dev::bob();
     let bob_address: MultiAddress<AccountId32, u32> = bob.public_key().into();
 
@@ -346,7 +346,7 @@ async fn transaction_unstable_broadcast() {
 
     // Submit the transaction.
     let _operation_id = rpc
-        .transaction_unstable_broadcast(&tx_bytes)
+        .transaction_v1_broadcast(&tx_bytes)
         .await
         .unwrap()
         .expect("Server is not overloaded by 1 tx; qed");
@@ -383,7 +383,7 @@ async fn transaction_unstable_broadcast() {
 }
 
 #[tokio::test]
-async fn transaction_unstable_stop() {
+async fn transaction_v1_stop() {
     let bob = dev::bob();
     let bob_address: MultiAddress<AccountId32, u32> = bob.public_key().into();
 
@@ -392,7 +392,7 @@ async fn transaction_unstable_stop() {
 
     // Cannot stop an operation that was not started.
     let _err = rpc
-        .transaction_unstable_stop("non-existent-operation-id")
+        .transaction_v1_stop("non-existent-operation-id")
         .await
         .unwrap_err();
 
@@ -409,15 +409,12 @@ async fn transaction_unstable_stop() {
 
     // Submit the transaction.
     let operation_id = rpc
-        .transaction_unstable_broadcast(&tx_bytes)
+        .transaction_v1_broadcast(&tx_bytes)
         .await
         .unwrap()
         .expect("Server is not overloaded by 1 tx; qed");
 
-    rpc.transaction_unstable_stop(&operation_id).await.unwrap();
+    rpc.transaction_v1_stop(&operation_id).await.unwrap();
     // Cannot stop it twice.
-    let _err = rpc
-        .transaction_unstable_stop(&operation_id)
-        .await
-        .unwrap_err();
+    let _err = rpc.transaction_v1_stop(&operation_id).await.unwrap_err();
 }

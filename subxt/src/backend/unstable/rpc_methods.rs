@@ -263,16 +263,16 @@ impl<T: Config> UnstableRpcMethods<T> {
     }
 
     /// Attempt to submit a transaction, returning events about its progress.
-    pub async fn transaction_unstable_submit_and_watch(
+    pub async fn transactionwatch_v1_submit_and_watch(
         &self,
         tx: &[u8],
     ) -> Result<TransactionSubscription<T::Hash>, Error> {
         let sub = self
             .client
             .subscribe(
-                "transactionWatch_unstable_submitAndWatch",
+                "transactionWatch_v1_submitAndWatch",
                 rpc_params![to_hex(tx)],
-                "transactionWatch_unstable_unwatch",
+                "transactionWatch_v1_unwatch",
             )
             .await?;
 
@@ -280,24 +280,24 @@ impl<T: Config> UnstableRpcMethods<T> {
     }
 
     /// Broadcast the transaction on the p2p network until the
-    /// [`Self::transaction_unstable_stop`] is called.
+    /// [`Self::transaction_v1_stop`] is called.
     ///
     /// Returns an operation ID that can be used to stop the broadcasting process.
     /// Returns `None` if the server cannot handle the request at the moment.
-    pub async fn transaction_unstable_broadcast(&self, tx: &[u8]) -> Result<Option<String>, Error> {
+    pub async fn transaction_v1_broadcast(&self, tx: &[u8]) -> Result<Option<String>, Error> {
         self.client
-            .request("transaction_unstable_broadcast", rpc_params![to_hex(tx)])
+            .request("transaction_v1_broadcast", rpc_params![to_hex(tx)])
             .await
     }
 
     /// Stop the broadcasting process of the transaction.
     ///
-    /// The operation ID is obtained from the [`Self::transaction_unstable_broadcast`] method.
+    /// The operation ID is obtained from the [`Self::transaction_v1_broadcast`] method.
     ///
     /// Returns an error if the operation ID does not correspond to any active transaction for this connection.
-    pub async fn transaction_unstable_stop(&self, operation_id: &str) -> Result<(), Error> {
+    pub async fn transaction_v1_stop(&self, operation_id: &str) -> Result<(), Error> {
         self.client
-            .request("transaction_unstable_stop", rpc_params![operation_id])
+            .request("transaction_v1_stop", rpc_params![operation_id])
             .await
     }
 }
