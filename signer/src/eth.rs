@@ -9,7 +9,6 @@ use alloc::format;
 use alloc::string::String;
 use core::fmt::{Display, Formatter};
 use core::str::FromStr;
-use derive_more::Display;
 use keccak_hash::keccak;
 use secp256k1::Message;
 
@@ -106,10 +105,12 @@ impl Keypair {
 
     /// Signs an arbitrary message payload.
     pub fn sign(&self, signer_payload: &[u8]) -> Signature {
-        let message_hash = keccak(signer_payload);
-        let wrapped =
-            Message::from_digest_slice(message_hash.as_bytes()).expect("Message is 32 bytes; qed");
-        Signature(ecdsa::internal::sign(&self.0 .0.secret_key(), &wrapped))
+        self.sign_prehashed(&keccak(signer_payload).0)
+    }
+
+    /// Signs a pre-hashed message.
+    pub fn sign_prehashed(&self, message_hash: &[u8; 32]) -> Signature {
+        Signature(self.0.sign_prehashed(message_hash).0)
     }
 }
 
@@ -215,14 +216,24 @@ pub fn verify<M: AsRef<[u8]>>(sig: &Signature, message: M, pubkey: &ecdsa::Publi
 }
 
 /// An error handed back if creating a keypair fails.
-#[derive(Debug, PartialEq, Display)]
+#[derive(Debug, PartialEq)]
 pub enum Error {
     /// Invalid seed.
-    #[display(fmt = "Invalid seed (was it the wrong length?)")]
     InvalidSeed,
     /// Invalid derivation path.
-    #[display(fmt = "Could not derive from path; some valeus in the path may have been >= 2^31?")]
     DeriveFromPath,
+}
+
+impl Display for Error {
+    fn fmt(&self, f: &mut Formatter<'_>) -> core::fmt::Result {
+        match self {
+            Error::InvalidSeed => write!(f, "Invalid seed (was it the wrong length?)"),
+            Error::DeriveFromPath => write!(
+                f,
+                "Could not derive from path; some values in the path may have been >= 2^31?"
+            ),
+        }
+    }
 }
 
 #[cfg(feature = "std")]
