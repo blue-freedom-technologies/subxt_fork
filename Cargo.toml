@@ -33,7 +33,7 @@ resolver = "2"
 [workspace.package]
 authors = ["Parity Technologies <admin@parity.io>"]
 edition = "2021"
-version = "0.36.0"
+version = "0.37.0"
 rust-version = "1.74.0"
 license = "Apache-2.0 OR GPL-3.0"
 repository = "https://github.com/paritytech/subxt"
@@ -73,7 +73,7 @@ color-eyre = "0.6.3"
 console_error_panic_hook = "0.1.7"
 darling = "0.20.8"
 derive-where = "1.2.7"
-either = { version = "1.11.0", default-features = false }
+either = { version = "1.12.0", default-features = false }
 frame-metadata = { version = "16.0.0", default-features = false }
 futures = { version = "0.3.30", default-features = false, features = ["std"] }
 getrandom = { version = "0.2", default-features = false }
@@ -86,17 +86,17 @@ jsonrpsee = { version = "0.22" }
 pretty_assertions = "1.4.0"
 primitive-types = { version = "0.12.2", default-features = false }
 proc-macro-error = "1.0.4"
-proc-macro2 = "1.0.82"
+proc-macro2 = "1.0.84"
 quote = "1.0.36"
 regex = { version = "1.10.4", default-features = false }
-scale-info = { version = "2.11.0", default-features = false }
+scale-info = { version = "2.11.3", default-features = false }
 scale-value = { version = "0.16.0", default-features = false }
 scale-bits = { version = "0.6.0", default-features = false }
 scale-decode = { version = "0.13.0", default-features = false }
 scale-encode = { version = "0.7.0", default-features = false }
-scale-typegen = "0.7.0"
-scale-typegen-description = "0.7.0"
-serde = { version = "1.0.202", default-features = false, features = ["derive"] }
+scale-typegen = "0.8.0"
+scale-typegen-description = "0.8.0"
+serde = { version = "1.0.203", default-features = false, features = ["derive"] }
 serde_json = { version = "1.0.117", default-features = false }
 syn = { version = "2.0.15", features = ["full", "extra-traits"] }
 thiserror = "1.0.61"
@@ -138,13 +138,13 @@ sp-runtime = "34.0.0"
 sp-keyring = "34.0.0"
 
 # Subxt workspace crates:
-subxt = { version = "0.36.0", path = "subxt", default-features = false }
-subxt-core = { version = "0.36.0", path = "core", default-features = false }
-subxt-macro = { version = "0.36.0", path = "macro" }
-subxt-metadata = { version = "0.36.0", path = "metadata", default-features = false }
-subxt-codegen = { version = "0.36.0", path = "codegen" }
-subxt-signer = { version = "0.36.0", path = "signer", default-features = false }
-subxt-lightclient = { version = "0.36.0", path = "lightclient", default-features = false }
+subxt = { version = "0.37.0", path = "subxt", default-features = false }
+subxt-core = { version = "0.37.0", path = "core", default-features = false }
+subxt-macro = { version = "0.37.0", path = "macro" }
+subxt-metadata = { version = "0.37.0", path = "metadata", default-features = false }
+subxt-codegen = { version = "0.37.0", path = "codegen" }
+subxt-signer = { version = "0.37.0", path = "signer", default-features = false }
+subxt-lightclient = { version = "0.37.0", path = "lightclient", default-features = false }
 test-runtime = { path = "testing/test-runtime" }
 substrate-runner = { path = "testing/substrate-runner" }
 
